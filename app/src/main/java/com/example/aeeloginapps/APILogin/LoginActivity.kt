@@ -3,6 +3,7 @@ package com.example.aeeloginapps.APILogin
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,15 +28,15 @@ class LoginActivity : AppCompatActivity() {
     fun btnLoginOnClick(view: View) {
         val correo = binding.correo.text.toString()
         val pass = binding.pass.text.toString()
-        var usuario=Usuario()
-        if (ApiClient.validarUser(correo, pass,usuario)){
-            startActivity(Intent(this,MainActivity::class.java).putExtra("nombre",usuario.nombre))
-        }else{
-            //TODO toast user incorrecto
+        var usuario = Usuario()
+        if (ApiClient.validarUser(correo, pass, usuario)) {
+            startActivity(Intent(this, MainActivity::class.java).putExtra("nombre", usuario.nombre))
+        } else {
+            Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun etARegOnClick(view: View) {
-        //TODO ir a reg
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 }
