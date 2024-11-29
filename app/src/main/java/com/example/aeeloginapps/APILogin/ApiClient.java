@@ -10,11 +10,12 @@ import java.net.URL;
 public class ApiClient {
     private static final String API_URL = "https://sandbox.phpulse.es/index.php?action=usuarios";
 
-    public static boolean validarUser(String correo, String pass) {
+    public static boolean validarUser(String correo, String pass,Usuario userRet) {
         Usuario[] usuarios = obtenerUsuarios();
 
         for (Usuario u : usuarios) {
             if (u.getEmail().equals(correo) && u.getPassword().equals(pass)) {
+                userRet=u;
                 return true;
             }
         }
