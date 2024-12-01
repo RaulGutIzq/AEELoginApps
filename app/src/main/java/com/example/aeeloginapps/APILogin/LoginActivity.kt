@@ -30,9 +30,11 @@ class LoginActivity : AppCompatActivity() {
     fun btnLoginOnClick(view: View) {
         val correo = binding.correo.text.toString()
         val pass = binding.pass.text.toString()
-        var usuario = Usuario()
+
         thread {
-            if (ApiClient.validarUser(correo, pass, usuario)) {
+            val usuario = ApiClient.validarUser(correo, pass)
+            runOnUiThread{
+            if (usuario!=null) {
                 Log.d("LOGINUSER", "perfe" + usuario.id)
                 startActivity(
                     Intent(this, MainActivity::class.java).putExtra(
@@ -43,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show()
             }
+        }
         }
     }
 

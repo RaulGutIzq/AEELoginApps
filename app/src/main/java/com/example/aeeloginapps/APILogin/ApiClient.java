@@ -1,5 +1,7 @@
 package com.example.aeeloginapps.APILogin;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,16 +12,15 @@ import java.net.URL;
 public class ApiClient {
     private static final String API_URL = "https://sandbox.phpulse.es/index.php?action=usuarios";
 
-    public static boolean validarUser(String correo, String pass,Usuario userRet) {
+    public static Usuario validarUser(String correo, String pass) {
         Usuario[] usuarios = obtenerUsuarios();
 
         for (Usuario u : usuarios) {
             if (u.getEmail().equals(correo) && u.getPassword().equals(pass)) {
-                userRet=u;
-                return true;
+                return u;
             }
         }
-        return false;
+        return null;
     }
 
     public static Usuario[] obtenerUsuarios() {
@@ -27,6 +28,7 @@ public class ApiClient {
             URL url = new URL(API_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            Log.d("RESPUESTA", String.valueOf(conn.getResponseCode()));
             if (conn.getResponseCode() == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine;
@@ -35,7 +37,8 @@ public class ApiClient {
                     response.append(inputLine);
                 }
                 in.close();
-                JSONArray jsonArray = new JSONArray(response);
+                JSONArray jsonArray = new JSONArray(response.toString());
+                Log.d("RESPUESTA",response.toString());
                 Usuario[] usuarios = new Usuario[jsonArray.length()];
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
@@ -46,8 +49,8 @@ public class ApiClient {
                     usuario.setEmail(obj.getString("email"));
                     usuario.setPassword(obj.getString("password"));
                     usuario.setCreado_en(obj.getString("creado_en"));
-
-                    System.out.println("Email: " + usuario.getEmail());
+                    usuarios[i] = usuario;
+                    Log.d("USUARIO: "+i, String.valueOf(usuario));
                 }
                 return usuarios;
             } else {
@@ -208,5 +211,16 @@ class Usuario {
 
     public void setCreado_en(String creado_en) {
         this.creado_en = creado_en;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", creado_en='" + creado_en + '\'' +
+                '}';
     }
 }
