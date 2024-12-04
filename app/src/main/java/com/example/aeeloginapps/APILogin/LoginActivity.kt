@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
                     Intent(this, MainActivity::class.java).putExtra(
                         "nombre",
                         usuario.nombre
-                    )
+                    ).putExtra("usuario",usuario.nombre)
                 )
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show()

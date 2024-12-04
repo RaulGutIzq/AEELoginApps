@@ -38,7 +38,7 @@ public class ApiClient {
                 }
                 in.close();
                 JSONArray jsonArray = new JSONArray(response.toString());
-                Log.d("RESPUESTA",response.toString());
+                Log.d("RESPUESTA", response.toString());
                 Usuario[] usuarios = new Usuario[jsonArray.length()];
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
@@ -50,7 +50,7 @@ public class ApiClient {
                     usuario.setPassword(obj.getString("password"));
                     usuario.setCreado_en(obj.getString("creado_en"));
                     usuarios[i] = usuario;
-                    Log.d("USUARIO: "+i, String.valueOf(usuario));
+                    Log.d("USUARIO: " + i, String.valueOf(usuario));
                 }
                 return usuarios;
             } else {
@@ -88,7 +88,7 @@ public class ApiClient {
         }
     }
 
-    public static void crearUsuario(String nombreUsuario, String email, String contraseña) {
+    public static int crearUsuario(String nombreUsuario, String email, String contraseña) {
         try {
             URL url = new URL(API_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -101,15 +101,12 @@ public class ApiClient {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
-            if (conn.getResponseCode() == 200) {
-                System.out.println("Usuario creado con éxito.");
-            } else {
-                System.out.println("Error al crear usuario: " + conn.getResponseCode());
-            }
+            return conn.getResponseCode();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     public static void actualizarUsuario(int id, String nombreUsuario, String email) {
@@ -153,7 +150,7 @@ public class ApiClient {
     }
 }
 
-class Usuario {
+class Usuario implements Serializable {
     private String id;
     private String nombre;
     private String email;
