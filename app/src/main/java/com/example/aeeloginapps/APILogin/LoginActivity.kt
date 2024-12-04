@@ -38,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LOGINUSER", usuario.id+" "+usuario.nombre)
                 startActivity(
                     Intent(this, MainActivity::class.java).putExtra(
-                        "nombre",
-                        usuario.nombre
+                        "usuario",
+                        usuario
                     )
                 )
             } else {
