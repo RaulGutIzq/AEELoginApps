@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val nom = Intent().getStringExtra("usuario")
+        val nom = intent.getStringExtra("nombre")
         binding.etNom.setText("Hola $nom!!!!!!")
     }
 }

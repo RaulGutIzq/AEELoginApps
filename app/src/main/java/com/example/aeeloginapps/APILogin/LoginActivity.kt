@@ -35,12 +35,12 @@ class LoginActivity : AppCompatActivity() {
             val usuario = ApiClient.validarUser(correo, pass)
             runOnUiThread{
             if (usuario!=null) {
-                Log.d("LOGINUSER", "perfe" + usuario.id)
+                Log.d("LOGINUSER", usuario.id+" "+usuario.nombre)
                 startActivity(
                     Intent(this, MainActivity::class.java).putExtra(
                         "nombre",
                         usuario.nombre
-                    ).putExtra("usuario",usuario.nombre)
+                    )
                 )
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show()
