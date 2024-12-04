@@ -43,10 +43,10 @@ class RegisterActivity : AppCompatActivity() {
                 )
                 runOnUiThread {
                     if (respuesta == 200) {
+                        Toast.makeText(this, "Usuario creado correctamente", Toast.LENGTH_LONG).show()
                         aLogin(view)
                     } else {
                         Toast.makeText(this, "Error: " + respuesta, Toast.LENGTH_SHORT).show()
-
                     }
                 }
             }
