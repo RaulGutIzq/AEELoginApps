@@ -2,6 +2,7 @@ package com.example.aeeloginapps.APILogin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aeeloginapps.R
 import com.example.aeeloginapps.databinding.ActivityRegisterBinding
+import kotlin.concurrent.thread
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -33,20 +35,25 @@ class RegisterActivity : AppCompatActivity() {
         if (binding.nombre.text.toString().isNotBlank() && binding.correo.text.toString()
                 .isNotBlank() && binding.pass.text.toString().isNotBlank()
         ) {
-            val respuesta = ApiClient.crearUsuario(
-                binding.nombre.text.toString(),
-                binding.correo.text.toString(),
-                binding.pass.text.toString()
-            )
-            if (respuesta == 200) {
-                aLogin(view)
-            } else {
-                Toast.makeText(this, "Error: " + respuesta, Toast.LENGTH_SHORT).show()
+            thread {
+                val respuesta = ApiClient.crearUsuario(
+                    binding.nombre.text.toString(),
+                    binding.correo.text.toString(),
+                    binding.pass.text.toString()
+                )
+                runOnUiThread {
+                    if (respuesta == 200) {
+                        aLogin(view)
+                    } else {
+                        Toast.makeText(this, "Error: " + respuesta, Toast.LENGTH_SHORT).show()
 
+                    }
+                }
             }
         } else {
             Toast.makeText(this, "No puedes dejar campos en blanco", Toast.LENGTH_SHORT).show()
 
         }
+
     }
 }

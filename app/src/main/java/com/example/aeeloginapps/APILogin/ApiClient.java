@@ -96,14 +96,18 @@ public class ApiClient {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
             String jsonInputString = String.format("{\"entidad\":\"usuarios\",\"nombre\":\"%s\", \"email\":\"%s\", \"password\":\"%s\"}", nombreUsuario, email, contraseña);
+            //     String jsonInputString = String.format("{\"nombre\":\"%s\", \"email\":\"%s\", \"password\":\"%s\"}", nombreUsuario, email, contraseña);
+
             System.out.println(jsonInputString);
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
+            System.out.println(conn.getResponseCode());
             return conn.getResponseCode();
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return 0;
