@@ -30,13 +30,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun registrarOnClick(view: View) {
-        if (binding.nombre.toString().isNotBlank() && binding.correo.toString()
-                .isNotBlank() && binding.pass.toString().isNotBlank()
+        if (binding.nombre.text.toString().isNotBlank() && binding.correo.text.toString()
+                .isNotBlank() && binding.pass.text.toString().isNotBlank()
         ) {
             val respuesta = ApiClient.crearUsuario(
-                binding.nombre.toString(),
-                binding.correo.toString(),
-                binding.pass.toString()
+                binding.nombre.text.toString(),
+                binding.correo.text.toString(),
+                binding.pass.text.toString()
             )
             if (respuesta == 200) {
                 aLogin(view)
@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error: " + respuesta, Toast.LENGTH_SHORT).show()
 
             }
-        }else{
+        } else {
             Toast.makeText(this, "No puedes dejar campos en blanco", Toast.LENGTH_SHORT).show()
 
         }
